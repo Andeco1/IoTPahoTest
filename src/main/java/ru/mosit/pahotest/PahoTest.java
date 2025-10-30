@@ -2,15 +2,19 @@ package ru.mosit.pahotest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import ru.mosit.pahotest.data.JsonData;
 import ru.mosit.pahotest.data.Topic;
 import ru.mosit.pahotest.data.XmlData;
 import ru.mosit.pahotest.data.XmlDataList;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -22,7 +26,7 @@ import java.util.List;
 
 public class PahoTest {
     // Параметры подключения к брокеру
-    static String host = "192.168.1.12";
+    static String host = "192.168.1.17";
     static Integer port = 1883;
     static List<JsonData> jsonDataList = new ArrayList<>();
     static List<XmlData> xmlDataList = new ArrayList<>();
@@ -36,8 +40,8 @@ public class PahoTest {
         // Создание класса для формирования JSON
         var g = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantConverter()).create();
         // Объект для хранения данных
-        var jsonData = new JsonData(0.0F, 0, 0.0F, 0.0F, null,0);
-        var xmlData = new XmlData(0.0F, 0, 0.0F, 0.0F, null,0);
+        var jsonData = new JsonData(0.0F, 0, 0.0F, 0.0F, null, 0);
+        var xmlData = new XmlData(0.0F, 0, 0.0F, 0.0F,null,0);
 
         // Создание колбэков для обработки событий, возникающих на клиенте
         client.setCallback(new MqttCallback() {
